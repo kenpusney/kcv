@@ -7,6 +7,7 @@
 #include "ImageWindow.hpp"
 
 #include <kcvTransformer.hpp>
+#include <kcvFilter.hpp>
 
 int main(int argc, char**argv)
 {
@@ -17,7 +18,17 @@ int main(int argc, char**argv)
     
     auto img = transform(png);
     
-    kcv::MosaicTransform().Transform(img);
+    double* kernel = new double[9];
+    for(int i = 0; i < 9; i++)
+    {
+        kernel[i] = 0;
+        kernel[4] = 1;
+        kernel[1] = -1;
+    }
+    
+    kcv::Filter filter {1, kernel};
+    
+    kcv::Processing(img, filter);
     
     auto win = new ImageWindow<5000,5000>(img);
     win->show();
