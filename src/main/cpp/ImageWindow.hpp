@@ -15,7 +15,7 @@ template<int XSIZE, int YSIZE>
 class ImageWindow : public Fl_Double_Window
 {
     unsigned char pixbuf[YSIZE][XSIZE][3];
-    Image* img;
+    Image* image;
 
     void draw()
     {
@@ -24,7 +24,7 @@ class ImageWindow : public Fl_Double_Window
 
 public:
     ImageWindow(Image& _image, const char *name=0) : Fl_Double_Window(_image.Width(), _image.Height() ,name),
-                                                                          img(&_image)
+                                                                          image(&_image)
     {
         end();
         RenderImage();
@@ -40,13 +40,13 @@ public:
     void RenderImage()
     {
         
-        for ( int y=0; y<img->Height(); y++ )
+        for ( int y=0; y< image->Height(); y++ )
         {
-            for ( int x=0; x<img->Width(); x++ )
+            for ( int x=0; x< image->Width(); x++ )
             {
                 unsigned char r,g,b;
 
-                Color color = img->GetPixel(x, y);
+                auto color = image->GetPixel(x, y);
                 PlotPixel(x, y, color.r, color.g, color.b);
             }
         }

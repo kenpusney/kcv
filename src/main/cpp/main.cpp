@@ -6,6 +6,8 @@
 #include "utils.hpp"
 #include "ImageWindow.hpp"
 
+#include <kcvTransformer.hpp>
+
 int main(int argc, char**argv)
 {
     
@@ -13,9 +15,11 @@ int main(int argc, char**argv)
 
     Fl::visual(FL_RGB);         // prevents dithering on some systems
     
-    auto image = transform(png);
+    auto img = transform(png);
     
-    auto win = new ImageWindow<5000,5000>(image);
+    kcv::MosaicTransform().Transform(img);
+    
+    auto win = new ImageWindow<5000,5000>(img);
     win->show();
     Fl::run();
     delete win;

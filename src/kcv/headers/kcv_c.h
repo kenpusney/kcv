@@ -6,17 +6,19 @@
 extern "C"{
 #endif // __cplusplus
 
-typedef struct kcv_point_t
+typedef struct kcv_point2d_t
 {
     int x;
     int y;
-} kyc_point_t;
+} kcv_point2d_t;
 
-typedef struct kcv_vec2d_t
+typedef struct kcv_line2d_t
 {
-    kyc_point_t from;
-    kyc_point_t to;
-} kyc_vec2d_t;
+    kcv_point2d_t from;
+    kcv_point2d_t to;
+} kcv_line2d_t;
+
+typedef struct kcv_point2d_t kcv_vec2d_t;
 
 typedef struct kcv_image_t
 {
@@ -33,7 +35,7 @@ typedef struct kcv_color_t
     int g;
     int b;
     int a;
-} kyc_color_t;
+} kcv_color_t;
 
 int kcvFreeImage(kcv_image_t* img);
 

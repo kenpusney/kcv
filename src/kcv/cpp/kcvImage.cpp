@@ -1,8 +1,10 @@
 
 #include <kcvImage.hpp>
+#include <algorithm>
 
 using namespace kcv;
-Image::byte* Image::GetRawDataAddress(int x, int y) const
+
+Image::byte* Image::GetRawDataAddress(int x, int y) const noexcept
 {
     byte* start = img.data;
     int offset = img.width * y + x;
@@ -37,9 +39,19 @@ Color Image::GetPixel(int x, int y) const
     return color;
 }
 
-Color Image::GetPixel(const Point& point) const
+Color Image::GetPixel(const Point2D& point) const
 {
     return GetPixel(point.x, point.y);
+}
+
+Image Image::Clone() const
+{
+    int size = img.width*img.height*img.color_size;
+    unsigned char* data = new unsigned char[size];
+    
+    std::copy(img.data, img.data+size, data);
+    
+    return Image {img.width, img.height, data, img.color_size};
 }
 
 void Image::SetPixel(int x, int y, const Color& color)
@@ -59,7 +71,7 @@ void Image::SetPixel(int x, int y, const Color& color)
     }
 }
 
-void Image::SetPixel(const Point& point, const Color& color)
+void Image::SetPixel(const Point2D& point, const Color& color)
 {
     return SetPixel(point.x, point.y, color);
 }
@@ -67,6 +79,11 @@ void Image::SetPixel(const Point& point, const Color& color)
 void Image::Free()
 {
     kcvFreeImage(&img);
+}
+
+int Image::ColorSize() const
+{
+    return img.color_size;
 }
 
 int Image::Width() const
