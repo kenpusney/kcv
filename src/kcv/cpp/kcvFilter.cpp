@@ -45,6 +45,25 @@ namespace kcv
         return offset;
     }
     
+    void adjust(int r)
+    {
+        if (r > 255)
+        {
+            r = 255;
+        } else if (r < 0)
+        {
+            r = 0;
+        }
+    }
+        
+    void adjust(Color& color) 
+    {
+        adjust(color.r);
+        adjust(color.g);
+        adjust(color.b);
+        adjust(color.a);
+    }
+
     Image Processing(const Image& image, const Filter& filter)
     {
         Image snap {image};
@@ -67,6 +86,7 @@ namespace kcv
                         color.g += current.g * weight;
                         color.b += current.b * weight;
                         color.a += current.a * weight;
+                        adjust(color);
                     }
                 }
                 

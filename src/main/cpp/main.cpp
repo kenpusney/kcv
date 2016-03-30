@@ -22,15 +22,15 @@ int main(int argc, char**argv)
 
     auto img = transform(png);
 
-    std::vector<double> kernel {0, 1, 0,
-                                0, -4, 1,
-                                0, 1, 0}; 
+    // std::vector<double> kernel {1, 2, 1, 2, 4, 2, 1, 2, 1}; 
     
-    kcv::Filter filter {1, kernel};
+    // kcv::Filter filter {1, kernel};
     
-    auto&& img1 = kcv::Processing(img, filter);
+    // auto&& img1 = kcv::Processing(img, filter);
     
-    auto win = new ImageWindow<5000,5000>(img1);
+    MosaicTransform{10}.Transform(img);
+    
+    auto win = new ImageWindow<5000,5000>(img);
     win->show();
     Fl::run();
     delete win;
