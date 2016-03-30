@@ -3,16 +3,22 @@
 #define __KCV_FILTER_HPP
 
 #include "kcvImage.hpp"
-#include "kcv_c_filter.h"
+#include <vector>
 
 namespace kcv
 {
+    struct FilterKernel
+    {
+        int radius;
+        std::vector<double> data;
+    };
+    
     class Filter
     {
-        kcv_filter_t kernel;
+        FilterKernel kernel;
         
     public:
-        Filter(int radius, double* data);
+        Filter(int radius, const std::vector<double>& data);
         
         
         int Radius() const;
@@ -24,7 +30,7 @@ namespace kcv
     
     int Edge(int offset, int start, int width);
     
-    Image Processing(Image& image, Filter& filter);
+    Image Processing(const Image& image, const Filter& filter);
 }
 
 #endif

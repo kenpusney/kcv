@@ -1,23 +1,22 @@
 
-#include <kcvImage.hpp>
+#include "kcvImage.hpp"
 #include <algorithm>
+#include <vector>
+#include <iterator>
+#include <iostream>
 
 namespace kcv
 {
-        
+    
     Image::byte* Image::GetRawDataAddress(int x, int y) const noexcept
     {
-        byte* start = img.data;
         int offset = img.width * y + x;
-        return &start[offset*img.color_size];
+        return &img.data[offset*img.color_size];
     }
-            
-    Image::Image(int x, int y, unsigned char* data, int color_size)
+    
+    Image::Image(int x, int y, const std::vector<Image::byte>& data, int color_size):
+    img {x, y, data, color_size}
     {
-        img.width = x;
-        img.height = y;
-        img.data = data;
-        img.color_size = color_size;
     }
     
     Color Image::GetPixel(int x, int y) const
@@ -37,6 +36,12 @@ namespace kcv
             color.a = start[3];
             color.size = img.color_size;
         }
+        else if (img.color_size == 3) {
+            color.r = start[0];
+            color.g = start[1];
+            color.b = start[2];
+            color.size = img.color_size;
+        }
         return color;
     }
     
@@ -45,14 +50,8 @@ namespace kcv
         return GetPixel(point.x, point.y);
     }
     
-    Image Image::Clone() const
+    Image::Image(const Image& image): Image{image.img.width, image.img.height, image.img.data, image.img.color_size}
     {
-        int size = img.width*img.height*img.color_size;
-        unsigned char* data = new unsigned char[size];
-        
-        std::copy(img.data, img.data+size, data);
-        
-        return Image {img.width, img.height, data, img.color_size};
     }
     
     void Image::SetPixel(int x, int y, const Color& color)
@@ -70,6 +69,11 @@ namespace kcv
             start[2] = color.b;
             start[3] = color.a;
         }
+        else if (img.color_size == 3) {
+            start[0] = color.r;
+            start[1] = color.g;
+            start[2] = color.b;
+        }
     }
     
     void Image::SetPixel(const Point2D& point, const Color& color)
@@ -79,7 +83,7 @@ namespace kcv
     
     void Image::Free()
     {
-        kcvFreeImage(&img);
+        
     }
     
     int Image::ColorSize() const

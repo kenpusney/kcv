@@ -1,6 +1,6 @@
 
-#include <kcvTransformer.hpp>
-#include <kcvImage.hpp>
+#include "kcvTransformer.hpp"
+#include "kcvImage.hpp"
 
 #include <stdio.h>
 
@@ -32,8 +32,7 @@ namespace kcv
     {
         int x = horizonal * level;
         int y = vertical * level;
-        int pix_count = level*level;
-        
+
         int median_x = x + level/2, median_y = y + level/2;
         
         if(median_x >= image.Width() || median_y >= image.Height())

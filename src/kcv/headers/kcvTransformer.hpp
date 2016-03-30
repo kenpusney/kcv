@@ -7,7 +7,7 @@
 namespace kcv
 {
     class GrayTransform
-    {     
+    {
         Color Grayfy(const Color& color);
     public:
         void Transform(Image& image);

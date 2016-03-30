@@ -8,6 +8,9 @@
 
 #include <kcvTransformer.hpp>
 #include <kcvFilter.hpp>
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
 int main(int argc, char**argv)
 {
@@ -16,21 +19,19 @@ int main(int argc, char**argv)
 
     Fl::visual(FL_RGB);         // prevents dithering on some systems
     
+
     auto img = transform(png);
-    
-    double* kernel = new double[9];
-    for(int i = 0; i < 9; i++)
-    {
-        kernel[i] = 0;
-        kernel[4] = 1;
-        kernel[1] = -1;
-    }
+
+    std::vector<double> kernel(9);
+    std::fill_n(begin(kernel), 9, 0);
+    kernel[4] = 1;
+    kernel[0] = -1;
     
     kcv::Filter filter {1, kernel};
     
-    kcv::Processing(img, filter);
+    auto&& img1 = kcv::Processing(img, filter);
     
-    auto win = new ImageWindow<5000,5000>(img);
+    auto win = new ImageWindow<5000,5000>(img1);
     win->show();
     Fl::run();
     delete win;

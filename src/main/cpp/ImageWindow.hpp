@@ -44,8 +44,6 @@ public:
         {
             for ( int x=0; x< image->Width(); x++ )
             {
-                unsigned char r,g,b;
-
                 auto color = image->GetPixel(x, y);
                 PlotPixel(x, y, color.r, color.g, color.b);
             }
