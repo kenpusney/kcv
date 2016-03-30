@@ -81,11 +81,6 @@ namespace kcv
         return SetPixel(point.x, point.y, color);
     }
     
-    void Image::Free()
-    {
-        
-    }
-    
     int Image::ColorSize() const
     {
         return img.color_size;

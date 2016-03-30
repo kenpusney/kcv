@@ -31,9 +31,6 @@ namespace kcv
         int ColorSize() const;
         int Width() const;
         int Height() const;
-        
-        void Free();
-        Image Clone() const;
     };
 }
 

@@ -22,10 +22,9 @@ int main(int argc, char**argv)
 
     auto img = transform(png);
 
-    std::vector<double> kernel(9);
-    std::fill_n(begin(kernel), 9, 0);
-    kernel[4] = 1;
-    kernel[0] = -1;
+    std::vector<double> kernel {0, 1, 0,
+                                0, -4, 1,
+                                0, 1, 0}; 
     
     kcv::Filter filter {1, kernel};
     
