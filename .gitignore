@@ -3,4 +3,6 @@
 .gradle/
 build/
 *.VC.db
-
+Makefile
+CMake*
+!CMakeLists.txt
