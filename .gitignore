@@ -2,3 +2,5 @@
 *.png
 .gradle/
 build/
+*.VC.db
+

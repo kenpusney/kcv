@@ -9,7 +9,7 @@ namespace kcv
 {
     struct FilterKernel
     {
-        int radius;
+        int size;
         std::vector<double> data;
     };
     
@@ -18,10 +18,10 @@ namespace kcv
         FilterKernel kernel;
         
     public:
-        Filter(int radius, const std::vector<double>& data);
+        Filter(int size, const std::vector<double>& data);
         
         
-        int Radius() const;
+        int Size() const;
         double Get(int x, int y) const;
         
         void Set(int x, int y, double value);

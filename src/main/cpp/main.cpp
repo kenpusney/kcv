@@ -14,23 +14,23 @@
 
 int main(int argc, char**argv)
 {
-    
+
     auto&& png = Fl_PNG_Image(argv[1]);
 
     Fl::visual(FL_RGB);         // prevents dithering on some systems
-    
+
 
     auto img = transform(png);
 
-    // std::vector<double> kernel {1, 2, 1, 2, 4, 2, 1, 2, 1}; 
+    std::vector<double> kernel {0, 0, 0, 0, 1, 0, 0, 0, 0}; 
     
-    // kcv::Filter filter {1, kernel};
+    kcv::Filter filter {3, kernel};
     
-    // auto&& img1 = kcv::Processing(img, filter);
+    auto&& img1 = kcv::Processing(img, filter);
     
-    MosaicTransform{10}.Transform(img);
+    // kcv::InverseTransform{}.Transform(img);
     
-    auto win = new ImageWindow<5000,5000>(img);
+    auto win = new ImageWindow<5000,5000>(img1);
     win->show();
     Fl::run();
     delete win;

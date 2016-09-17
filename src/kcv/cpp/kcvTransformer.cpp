@@ -7,23 +7,6 @@
 namespace kcv
 {
     
-    Color GrayTransform::Grayfy(const Color& color)
-    {
-        int gray = (color.r*30 + color.g*59 + color.b*11) / 100;
-        return Color {gray, gray, gray, gray, color.size};
-    }
-    
-    void GrayTransform::Transform(Image& image)
-    {
-        for(int x = 0; x < image.Width(); x++)
-        {
-            for(int y = 0; y < image.Height(); y++)
-            {
-                image.SetPixel(x, y, Grayfy(image.GetPixel(x, y)));
-            }
-        }
-    }
-    
     MosaicTransform::MosaicTransform(int _level): level(_level)
     {
     }

@@ -8,7 +8,7 @@ model {
             }
             
             binaries.all {
-                cppCompiler.args "-g", "-std=c++1z"
+                cppCompiler.args "-g", "-pg", "-std=c++1z"
                 linker.args "-lfltk", "-lfltk_images", "-lpng", "-lz", "-ljpeg", "-lpthread"
             }
         }
@@ -22,5 +22,5 @@ model {
 
 
 task run(dependsOn: "build", type: Exec) {
-    commandLine "./build/binaries/mainExecutable/main", "test.png"
+    commandLine "./build/exe/main/main", "test.png"
 }

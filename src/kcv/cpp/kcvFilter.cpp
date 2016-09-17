@@ -9,28 +9,24 @@ using std::min;
 namespace kcv
 {
     
-    Filter::Filter(int radius, const std::vector<double>& data):
-    kernel {radius, data}
+    Filter::Filter(int size, const std::vector<double>& data):
+    kernel {size, data}
     {
     }
     
-    int Filter::Radius() const
+    int Filter::Size() const
     {
-        return kernel.radius;
+        return kernel.size;
     }
     
     double Filter::Get(int x, int y) const
     {
-        x += kernel.radius;
-        y += kernel.radius;
-        return kernel.data[kernel.radius*2*y + x];
+        return kernel.data[kernel.size*y + x];
     }
     
     void Filter::Set(int x, int y, double value)
     {
-        x += kernel.radius;
-        y += kernel.radius;
-        kernel.data[kernel.radius*2*y + x] = value;
+        kernel.data[kernel.size*y + x] = value;
     }
     
     void Filter::Set(int index, double value)
@@ -45,7 +41,7 @@ namespace kcv
         return offset;
     }
     
-    void adjust(int r)
+    static void adjust(int& r)
     {
         if (r > 255)
         {
@@ -56,7 +52,7 @@ namespace kcv
         }
     }
         
-    void adjust(Color& color) 
+    static void adjust(Color& color) 
     {
         adjust(color.r);
         adjust(color.g);
@@ -76,12 +72,12 @@ namespace kcv
             for(int x = 0; x < width; x++)
             {
                 Color color {0, 0, 0, 0, image.ColorSize()};
-                for(int j = -filter.Radius(); j < filter.Radius(); j++)
+                for(int j = 0; j < filter.Size(); j++)
                 {
-                    for(int i = -filter.Radius(); i < filter.Radius(); i++)
+                    for(int i = 0; i < filter.Size(); i++)
                     {
                         auto weight = filter.Get(i, j);
-                        auto current = image.GetPixel(Edge(i, x, width), Edge(j, y, height));
+                        auto current = image.GetPixel(Edge(i - filter.Size(), x, width), Edge(j - filter.Size(), y, height));
                         color.r += current.r * weight;
                         color.g += current.g * weight;
                         color.b += current.b * weight;
